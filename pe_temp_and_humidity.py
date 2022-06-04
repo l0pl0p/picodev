@@ -3,6 +3,7 @@
 
 import machine
 import utime
+import json
 from dht import DHT11 # import DHT lib to allow sensor addressing
 
 # Pico Explorer boilerplate
@@ -63,9 +64,17 @@ while True:
     
     # time to update the display
     display.update()
+    
+    #write the data to the json datalog
+    #with open('datalog.json') as f:
+    #    f.write(json.dumps(str(utime.localtime()) + "," + str(temperature) + "," + str(humidity) + "\n"))
 
-    # waits for 5 seconds
-    utime.sleep(5)
+    datalog = open("datalog.csv", "a")
+    datalog.write(str(utime.localtime()) + "," + str(temperature) + "," + str(humidity) + "\n")
+    datalog.close()
+
+    # waits for 30 seconds
+    utime.sleep(30)
 
     # the next tall thin rectangle needs to be drawn 6 pixels to the right of the last one
     i += 6
